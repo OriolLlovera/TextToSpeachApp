@@ -43,4 +43,25 @@ const speak = () =>{
     console.error('Already speaking...');
     return;
   }
+  if (textInput.value !== '') {
+    // Get speak test
+    const speakText = new SpeechSynthesisUtterance(textInput.value);
+    //Speak end
+    speakText.onend = e => {
+      console.log('Done speaking...');
+    }
+    //Speak error
+    speakText.onerror = e =>{
+      console.error('Something went wrong');
+    }
+    // Selected voice
+    const selectedVoice  = voiceSelected.selectedOptions[0].getAttribute('data-name');
+
+    //Loop through voices and check if its the same in the api as the selected in the form
+    voices.forEach(voice =>{
+      if (voice.name === selectedVoice) {
+        speakText.voice = voice;
+      }
+    });
+  }
 }
