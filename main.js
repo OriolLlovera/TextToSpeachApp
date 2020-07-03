@@ -55,7 +55,7 @@ const speak = () =>{
       console.error('Something went wrong');
     }
     // Selected voice
-    const selectedVoice  = voiceSelected.selectedOptions[0].getAttribute('data-name');
+    const selectedVoice  = voiceSelect.selectedOptions[0].getAttribute('data-name');
 
     //Loop through voices and check if its the same in the api as the selected in the form
     voices.forEach(voice =>{
@@ -63,5 +63,28 @@ const speak = () =>{
         speakText.voice = voice;
       }
     });
+    //Set pitch
+    speakText.rate = rate.value;
+    speakText.pitch = pitch.value;
+
+    //Speak
+    synth.speak(speakText);
   }
-}
+};
+
+  //Event Listeners
+
+  //Text form submit
+  textForm.addEventListener('submit', e =>{
+    e.preventDefault();
+    speak();
+    textInput.getBoundingClientRect();
+  });
+
+  //Rate value change
+  rate.addEventListener('change', e => rateValue.textContent = rate.value);
+  //Pitch value change
+  pitch.addEventListener('change', e => pitchValue.textContent = pitch.value);
+
+  //Voice select change it alows you to reproduce the voice once you changed the voice without click again on Submit.
+  voiceSelect.addEventListener('change', e => speak());
